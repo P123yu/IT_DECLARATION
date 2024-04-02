@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* 
+.css-10d1a0h-MuiButtonBase-root {
+  font-weight: bold !important;
+  text-transform: none !important;
+  font-size: 17px !important;
+  letter-spacing: 0px !important;
+  margin-inline: 17px !important;
+} */
+
+
+.MuiBackdrop-root.MuiModal-backdrop.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop{
+  opacity: 0.6 !important;
+}
+
+.Dropdown-root{
+  width:150px !important;
+  outline: none !important;
+  font-size:17px !important;
+ 
+}
+
+.Dropdown-arrow {
+  border-color: #020a12 transparent transparent !important;
+  border-width:   10px 10px !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+}
+
+
+.Dropdown-control{
+  border:0px !important;
+}
+
+.Dropdown-placeholder.is-selected{
+  font-weight: 650 !important;
+}
+
+
+
+.Dropdown-option {
+  
+font-weight: bold !important;
+}
+
+/* 
+.css-1bpr6hs-MuiTab-root.Mui-selected{
+  margin-right: 17px !important;
+} */
+
+
+.css-1bs57xn{
+  border: 0px !important;
+}
