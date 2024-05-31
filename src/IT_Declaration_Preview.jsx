@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "react-dropdown/style.css";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
+import Service from "./Service";
 
 function IT_Declaration_Preview() {
   const [checked, setChecked] = useState(false);
@@ -48,27 +48,21 @@ function IT_Declaration_Preview() {
   }, []);
 
   const getTotalSection80C = () => {
-    axios
-      .get("http://localhost:8080/Section80C/getByempIdSec80c/1")
-      .then((res) => {
-        setNetData80C(res.data);
-      });
+    Service.getSection80CByEmpId().then((res) => {
+      setNetData80C(res.data);
+    });
   };
 
   const getTotalSection80D = () => {
-    axios
-      .get("http://localhost:8080/Section80D/getByempIdSec80d/1")
-      .then((res) => {
-        setNetData80D(res.data);
-      });
+    Service.getSection80DByEmpId().then((res) => {
+      setNetData80D(res.data);
+    });
   };
 
   const getTotalSection80E = () => {
-    axios
-      .get("http://localhost:8080/Section80E/getByempIdSec80e/1")
-      .then((res) => {
-        setNetData80E(res.data);
-      });
+    Service.getSection80EByEmpId().then((res) => {
+      setNetData80E(res.data);
+    });
   };
 
   return (

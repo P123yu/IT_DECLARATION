@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { TbCircleCheckFilled } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import Service from "./Service";
 import useFileStore from "./Zustand";
 
 function Proof_of_Investment_Display() {
@@ -25,106 +25,82 @@ function Proof_of_Investment_Display() {
   }, []);
 
   const getTotalSection80C = () => {
-    axios
-      .get("http://localhost:8080/Section80C/getByempIdSec80c/1")
-      .then((res) => {
-        setNetData80C(res.data);
-      });
+    Service.getSection80CByEmpId().then((res) => {
+      setNetData80C(res.data);
+    });
   };
 
   const getTotalSection80D = () => {
-    axios
-      .get("http://localhost:8080/Section80D/getByempIdSec80d/1")
-      .then((res) => {
-        setNetData80D(res.data);
-      });
+    Service.getSection80DByEmpId().then((res) => {
+      setNetData80D(res.data);
+    });
   };
 
   const getTotalSection80E = () => {
-    axios
-      .get("http://localhost:8080/Section80E/getByempIdSec80e/1")
-      .then((res) => {
-        setNetData80E(res.data);
-      });
+    Service.getSection80EByEmpId().then((res) => {
+      setNetData80E(res.data);
+    });
   };
 
   // actual
 
   const [actual80c, setActual80c] = useState("");
+  const [actual80d, setActual80d] = useState("");
+  const [actual80e, setActual80e] = useState("");
+
   const handleChangeActualInsert80c = (e) => {
     const { name, value } = e.target;
     setActual80c({ ...actual80c, [name]: value });
   };
 
-  console.log(actual80c, ".....");
-
   const handleActualInsert80c = () => {
     let newActual80c = { ...actual80c, empId: 1 };
-    console.log(newActual80c, "newActual80c");
-    axios
-      .post("http://localhost:8080/api80c/actualIns", newActual80c)
-      .then((res) => console.log("inserted"));
+    Service.postSection80CActualValue(newActual80c).then((res) =>
+      console.log("inserted")
+    );
   };
 
-  //
-
-  // const [actual80c, setactual80c] = useState("");
-
   useEffect(() => {
-    axios.get("http://localhost:8080/api80c/actualGet/1").then((res) => {
+    Service.getSection80CActualValue().then((res) => {
       setActual80c(res.data);
     });
   }, []);
 
-  const [actual80d, setActual80d] = useState("");
   const handleChangeActualInsert80d = (e) => {
     const { name, value } = e.target;
     setActual80d({ ...actual80d, [name]: value });
   };
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api80d/actualGet/1").then((res) => {
+    Service.getSection80DActualValue().then((res) => {
       setActual80d(res.data);
     });
   }, []);
 
-  console.log(actual80d, ".....");
+  useEffect(() => {
+    Service.getSection80EActualValue().then((res) => {
+      setActual80e(res.data);
+    });
+  }, []);
 
   const handleActualInsert80d = () => {
     let newActual80d = { ...actual80d, empId: 1 };
-    console.log(newActual80d, "newActual80c");
-    axios
-      .post("http://localhost:8080/api80d/actualIns", newActual80d)
-      .then((res) => console.log("inserted"));
+    Service.postSection80DActualValue(newActual80d).then((res) =>
+      console.log("inserted")
+    );
   };
 
-  console.log(actual80c, "actual80c");
-
-  const [actual80e, setActual80e] = useState("");
   const handleChangeActualInsert80e = (e) => {
     const { name, value } = e.target;
     setActual80e({ ...actual80e, [name]: value });
   };
 
-  console.log(actual80e, ".....");
-
   const handleActualInsert80e = () => {
     let newActual80e = { ...actual80e, empId: 1 };
-    console.log(newActual80e, "newActual80e");
-    axios
-      .post("http://localhost:8080/api80e/actualIns", newActual80e)
-      .then((res) => console.log("inserted"));
+    Service.postSection80EActualValue(newActual80e).then((res) =>
+      console.log("inserted")
+    );
   };
-
-  //
-
-  // const [actual80c, setactual80c] = useState("");
-
-  useEffect(() => {
-    axios.get("http://localhost:8080/api80e/actualGet/1").then((res) => {
-      setActual80e(res.data);
-    });
-  }, []);
 
   const handleNavigateProof = () => {
     navigate("/proof_of_investment_update");
@@ -852,7 +828,6 @@ function Proof_of_Investment_Display() {
             handleNavigateProof();
             handleActualInsert80d();
             handleActualInsert80e();
-            //"/proofsAndComments"
           }}
         >
           Save

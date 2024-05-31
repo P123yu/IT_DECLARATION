@@ -8,11 +8,12 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "react-use";
 import Proof_Of_Investment from "./Proof_Of_Investment";
 
 function IT_Declaration() {
   const navigate = useNavigate();
-
+  const [restrict, setRestrict, remove] = useLocalStorage("restrict", "false");
   const [value, setValue] = useState("one");
 
   const options1 = ["2024-2025", "2024", "2025"];
@@ -76,14 +77,15 @@ function IT_Declaration() {
 
       {value === "one" ? (
         <div>
-          <div className="flex space-x-1 items-center mt-8 md:ml-[250px] lg:ml-[500px] ml-[40px] ">
+          <div className="flex space-x-1 items-center mt-8 md:ml-[250px] lg:ml-[500px] ml-[40px] curor-pointer">
             <div className="text-xl text-gray-600 tracking-normal font-medium md:-mt-0 -mt-1">
-              Financial Year :{" "}
+              Financial Year :
             </div>
             <Dropdown
               options={options1}
               onChange={handleSelect}
               value={defaultOption1}
+              disabled={restrict === true}
             />
           </div>
 
@@ -93,7 +95,7 @@ function IT_Declaration() {
                 <div className="md:col-span-1"></div>
                 <div className="md:col-span-1 col-span-2 ">
                   <img
-                    className="md:h-64 md:w-full  h-52 w-[340px] lg:ml-0 ml-4 md:-ml-52"
+                    className="md:h-64 md:w-full  h-52 w-[340px] lg:ml-0 ml-4 md:-ml-52 rounded-xl"
                     src="./src/assets/IT Savings.jpg"
                   />
                 </div>
@@ -104,24 +106,30 @@ function IT_Declaration() {
               <div className="grid grid-cols-5">
                 <div className="lg:col-span-4   col-span-5 pt-4 ">
                   <h1 className="text-2xl font-bold md:ml-28 lg:ml-0 ml-0">
-                    IT Declaration is open now !
+                    IT Declaration is {restrict ? "close" : "open"} now !
                   </h1>
                   <h6 className="text-lg md:text-2xl lg:text-lg font-semibold mt-3 md:max-lg:text-center">
                     Hurry! Declare your Investment to reduce the Taxable income
-                    and thereby decrease your income tax{" "}
+                    and thereby decrease your income tax
                   </h6>
 
-                  <div
-                    className="border-2 border-blue-900 items-center flex space-x-5 w-[330px] p-3 mt-12 cursor-pointer md:max-lg:ml-[100px]"
-                    onClick={itDecWindow}
-                  >
-                    <div className="ml-2 text-2xl text-blue-900">
-                      Declarative Investments
-                    </div>
-                    <div className="text-xl">
-                      <FaArrowRightLong />
-                    </div>
-                  </div>
+                  {restrict ? (
+                    ""
+                  ) : (
+                    <>
+                      <div
+                        className="border-2 border-blue-900 items-center flex space-x-5 w-[330px] p-3 mt-12 cursor-pointer md:max-lg:ml-[100px]"
+                        onClick={itDecWindow}
+                      >
+                        <div className="ml-2 text-2xl text-blue-900">
+                          Declarative Investments
+                        </div>
+                        <div className="text-xl">
+                          <FaArrowRightLong />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

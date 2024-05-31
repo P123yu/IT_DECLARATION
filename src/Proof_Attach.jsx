@@ -1,5 +1,4 @@
 import { Box, Modal } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BiComment } from "react-icons/bi";
 import { BsCheck2Circle } from "react-icons/bs";
@@ -8,6 +7,7 @@ import { ImAttachment, ImCancelCircle } from "react-icons/im";
 import { TbCircleCheckFilled } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import Attachment from "./Attachment";
+import Service from "./Service";
 import useFileStore from "./Zustand";
 
 function Proof_Attach() {
@@ -16,10 +16,8 @@ function Proof_Attach() {
   const { regime } = useFileStore();
 
   const files = useFileStore((state) => state.files);
-  console.log(files);
 
   const [open, setOpen] = useState(false);
-  console.log("hello open");
 
   const [message, setMessage] = useState(false);
   const handleMessage = () => {
@@ -37,22 +35,15 @@ function Proof_Attach() {
 
   const [indexInfo, setIndexInfo] = useState(0);
   const handleCommentClick = (index) => {
-    console.log(index, "index");
-    console.log(openCommentIndex, "openCommentIndex");
     setOpenCommentIndex(openCommentIndex === index ? null : index);
   };
 
-  console.log(openCommentIndex, "openCommentIndex1");
-
   const handleAttachClick = (index) => {
     setIndexInfo(index);
-    console.log(index, "index...");
-    console.log(openCommentIndex, "openCommentIndex...");
     setOpenAttachIndex(openAttachIndex === index ? null : index);
   };
 
   useEffect(() => {
-    console.log("called");
     useFileStore.getState().clearAllFiles();
   }, [indexInfo]);
 
@@ -65,8 +56,6 @@ function Proof_Attach() {
   //   useFileStore.getState().removeFile(index);
   // };
 
-  console.log(openCommentIndex, "openCommentIndex1");
-
   const [netData80C, setNetData80C] = useState("");
   const [netData80D, setNetData80D] = useState("");
   const [netData80E, setNetData80E] = useState("");
@@ -78,48 +67,22 @@ function Proof_Attach() {
   }, []);
 
   const getTotalSection80C = () => {
-    axios
-      .get("http://localhost:8080/Section80C/getByempIdSec80c/1")
-      .then((res) => {
-        setNetData80C(res.data);
-      });
+    Service.getSection80CByEmpId().then((res) => {
+      setNetData80C(res.data);
+    });
   };
 
   const getTotalSection80D = () => {
-    axios
-      .get("http://localhost:8080/Section80D/getByempIdSec80d/1")
-      .then((res) => {
-        setNetData80D(res.data);
-      });
+    Service.getSection80DByEmpId().then((res) => {
+      setNetData80D(res.data);
+    });
   };
 
   const getTotalSection80E = () => {
-    axios
-      .get("http://localhost:8080/Section80E/getByempIdSec80e/1")
-      .then((res) => {
-        setNetData80E(res.data);
-      });
+    Service.getSection80EByEmpId().then((res) => {
+      setNetData80E(res.data);
+    });
   };
-
-  // actual
-
-  // const [actual80c, setActual80c] = useState("");
-  // const handleChangeActualInsert80c = (e) => {
-  //   const { name, value } = e.target;
-  //   setActual80c({ ...actual80c, [name]: value });
-  // };
-
-  // console.log(actual80c, ".....");
-
-  // const handleActualInsert80c = () => {
-  //   let newActual80c = { ...actual80c, empId: 1 };
-  //   console.log(newActual80c, "newActual80c");
-  //   axios
-  //     .post("http://localhost:8080/api80c/actualIns", newActual80c)
-  //     .then((res) => console.log("inserted"));
-  // };
-
-  //
 
   const [actual80c, setActual80c] = useState("");
   const [actual80d, setActual80d] = useState("");
@@ -132,22 +95,23 @@ function Proof_Attach() {
   }, []);
 
   const handleDisplayActual80c = () => {
-    axios.get("http://localhost:8080/api80c/actualGet/1").then((res) => {
+    Service.getSection80CActualValue().then((res) => {
       setActual80c(res.data);
     });
   };
 
   const handleDisplayActual80d = () => {
-    axios.get("http://localhost:8080/api80d/actualGet/1").then((res) => {
+    Service.getSection80DActualValue().then((res) => {
       setActual80d(res.data);
     });
   };
 
   const handleDisplayActual80e = () => {
-    axios.get("http://localhost:8080/api80e/actualGet/1").then((res) => {
+    Service.getSection80EActualValue().then((res) => {
       setActual80e(res.data);
     });
   };
+
   const handleNavigateProof = () => {
     navigate("/proof_of_investment_update");
   };
@@ -272,8 +236,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          //name="cpf"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.cpf}
                           readOnly
                         ></input>
@@ -286,7 +248,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(0)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] -mt-[40px] ">
+                  <div className="absolute ml-[1080px] -mt-[40px]">
                     {openAttachIndex === 0 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -295,12 +257,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(0)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] -mt-[40px] ">
+                  <div className="absolute ml-[1080px] -mt-[40px] ">
                     {openCommentIndex === 0 && (
                       <textarea
                         placeholder="Write your comment1..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -322,8 +284,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          //name="lip"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.lip}
                           readOnly
                         ></input>
@@ -337,7 +297,7 @@ function Proof_Attach() {
                     />
                   </div>
 
-                  <div className="absolute ml-[1000px] -mt-[20px] ">
+                  <div className="absolute ml-[1080px] mt-[20px] ">
                     {openAttachIndex === 1 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -346,12 +306,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(1)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] -mt-[20px] ">
+                  <div className="absolute ml-[1080px] mt-[20px] ">
                     {openCommentIndex === 1 && (
                       <textarea
                         placeholder="Write your comment2..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -373,8 +333,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          //name="ppf"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.ppf}
                           readOnly
                         ></input>
@@ -387,7 +345,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(2)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[0px] ">
+                  <div className="absolute ml-[1080px] mt-[60px] ">
                     {openAttachIndex === 2 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -396,12 +354,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(2)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[0px] ">
+                  <div className="absolute ml-[1080px] mt-[60px] ">
                     {openCommentIndex === 2 && (
                       <textarea
                         placeholder="Write your comment3..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -421,8 +379,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          //name="ulip"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.ulip}
                           readOnly
                         ></input>
@@ -435,7 +391,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(3)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[40px] ">
+                  <div className="absolute ml-[1080px] mt-[120px] ">
                     {openAttachIndex === 3 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -444,12 +400,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(3)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[40px] ">
+                  <div className="absolute ml-[1080px] mt-[120px] ">
                     {openCommentIndex === 3 && (
                       <textarea
                         placeholder="Write your comment4..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -471,8 +427,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          //name="ion"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.ion}
                           readOnly
                         ></input>
@@ -485,7 +439,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(4)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[80px] ">
+                  <div className="absolute ml-[1080px] mt-[160px] ">
                     {openAttachIndex === 4 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -494,12 +448,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(4)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[80px] ">
+                  <div className="absolute ml-[1080px] mt-[160px] ">
                     {openCommentIndex === 4 && (
                       <textarea
                         placeholder="Write your comment5..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -521,8 +475,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          // name="nss"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.nss}
                           readOnly
                         ></input>
@@ -535,7 +487,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(5)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[120px] ">
+                  <div className="absolute ml-[1080px] mt-[200px] ">
                     {openAttachIndex === 5 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -544,19 +496,19 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(5)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[120px] ">
+                  <div className="absolute ml-[1080px] mt-[200px] ">
                     {openCommentIndex === 5 && (
                       <textarea
                         placeholder="Write your comment6..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
                   </div>
                   <div className="col-span-6 my-2">
                     <h2 className="ml-5  font-semibold text-gray-700">
-                      Repayment of housing Loan Principle{" "}
+                      Repayment of housing Loan Principle
                       <span className="text-gray-500">
                         (Max. Rs. 1,50,000 /-)
                       </span>
@@ -574,8 +526,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          //name="hlp"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.hlp}
                           readOnly
                         ></input>
@@ -588,7 +538,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(6)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[240px] ">
                     {openAttachIndex === 6 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -597,12 +547,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(6)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[240px] ">
                     {openCommentIndex === 6 && (
                       <textarea
                         placeholder="Write your comment7..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -624,8 +574,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          // // name="fds"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.fds}
                           readOnly
                         ></input>
@@ -633,7 +581,13 @@ function Proof_Attach() {
                     </div>
                   </div>
                   <div className="col-span-1 text-blue-800">
-                    <ImAttachment />
+                    <ImAttachment
+                      className="cursor-pointer"
+                      onClick={() => handleAttachClick(7)}
+                    />
+                  </div>
+                  <div className="absolute ml-[1080px] mt-[300px] ">
+                    {openAttachIndex === 7 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
                     <BiComment
@@ -641,12 +595,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(7)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[200px] ">
+                  <div className="absolute ml-[1080px] mt-[300px] ">
                     {openCommentIndex === 7 && (
                       <textarea
                         placeholder="Write your comment8..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -671,8 +625,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          //name="lss"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.lss}
                           readOnly
                         ></input>
@@ -680,7 +632,13 @@ function Proof_Attach() {
                     </div>
                   </div>
                   <div className="col-span-1 text-blue-800">
-                    <ImAttachment />
+                    <ImAttachment
+                      className="cursor-pointer"
+                      onClick={() => handleAttachClick(8)}
+                    />
+                  </div>
+                  <div className="absolute ml-[1080px] mt-[340px] ">
+                    {openAttachIndex === 8 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
                     <BiComment
@@ -688,12 +646,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(8)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[240px] ">
+                  <div className="absolute ml-[1080px] mt-[340px] ">
                     {openCommentIndex === 8 && (
                       <textarea
                         placeholder="Write your comment9..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -705,7 +663,7 @@ function Proof_Attach() {
                         (Max. Rs. 1,50,000 /-)
                       </span>{" "}
                       <br></br>
-                      Restricted to Two Children{" "}
+                      Restricted to Two Children
                     </h2>
                   </div>
                   <div className="col-span-2 ml-5 text-gray-500 font-medium text-lg">
@@ -720,8 +678,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          // name="cee"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.cee}
                           readOnly
                         ></input>
@@ -729,7 +685,13 @@ function Proof_Attach() {
                     </div>
                   </div>
                   <div className="col-span-1 text-blue-800">
-                    <ImAttachment />
+                    <ImAttachment
+                      className="cursor-pointer"
+                      onClick={() => handleAttachClick(9)}
+                    />
+                  </div>
+                  <div className="absolute ml-[1080px] mt-[380px] ">
+                    {openAttachIndex === 9 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
                     <BiComment
@@ -737,12 +699,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(9)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[280px] ">
+                  <div className="absolute ml-[1080px] mt-[380px] ">
                     {openCommentIndex === 9 && (
                       <textarea
                         placeholder="Write your comment10..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -764,8 +726,6 @@ function Proof_Attach() {
                         <input
                           type="text"
                           className="w-[70px] outline-none"
-                          // name="dsss"
-                          // onChange={handleChangeActualInsert80c}
                           value={actual80c.dsss}
                           readOnly
                         ></input>
@@ -773,7 +733,13 @@ function Proof_Attach() {
                     </div>
                   </div>
                   <div className="col-span-1 text-blue-800">
-                    <ImAttachment />
+                    <ImAttachment
+                      className="cursor-pointer"
+                      onClick={() => handleAttachClick(10)}
+                    />
+                  </div>
+                  <div className="absolute ml-[1080px] mt-[460px] ">
+                    {openAttachIndex === 10 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
                     <BiComment
@@ -781,12 +747,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(10)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[320px] ">
+                  <div className="absolute ml-[1080px] mt-[460px] ">
                     {openCommentIndex === 10 && (
                       <textarea
                         placeholder="Write your comment11..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -835,7 +801,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(11)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] -mt-[30px] ">
                     {openAttachIndex === 11 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -844,12 +810,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(11)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] -mt-[30px] ">
                     {openCommentIndex === 11 && (
                       <textarea
-                        placeholder="Write your comment11..."
+                        placeholder="Write your comment12..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -899,7 +865,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(12)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] -mt-[20px] ">
                     {openAttachIndex === 12 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -908,12 +874,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(12)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] -mt-[20px] ">
                     {openCommentIndex === 12 && (
                       <textarea
-                        placeholder="Write your comment12..."
+                        placeholder="Write your comment13..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -954,7 +920,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(13)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[60px] ">
                     {openAttachIndex === 13 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -963,12 +929,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(13)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[60px] ">
                     {openCommentIndex === 13 && (
                       <textarea
-                        placeholder="Write your comment13..."
+                        placeholder="Write your comment14..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1009,7 +975,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(14)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[130px] ">
                     {openAttachIndex === 14 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800">
@@ -1018,12 +984,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(14)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[130px] ">
                     {openCommentIndex === 14 && (
                       <textarea
-                        placeholder="Write your comment14..."
+                        placeholder="Write your comment15..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1074,7 +1040,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(15)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openAttachIndex === 15 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800 mt-12">
@@ -1083,12 +1049,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(15)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openCommentIndex === 15 && (
                       <textarea
-                        placeholder="Write your comment15..."
+                        placeholder="Write your comment16..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1135,7 +1101,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(16)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openAttachIndex === 16 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800 mt-12">
@@ -1144,12 +1110,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(16)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openCommentIndex === 16 && (
                       <textarea
-                        placeholder="Write your comment16..."
+                        placeholder="Write your comment17..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1167,7 +1133,7 @@ function Proof_Attach() {
                     </h2>
                     <div className="font-semibold text-gray-700">
                       <h2 className="ml-5">
-                        Yes / No (if yes please enclose the certificate){" "}
+                        Yes / No (if yes please enclose the certificate)
                       </h2>
                     </div>
                   </div>
@@ -1197,7 +1163,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(17)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openAttachIndex === 17 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800 mt-12">
@@ -1206,12 +1172,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(17)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openCommentIndex === 17 && (
                       <textarea
-                        placeholder="Write your comment13..."
+                        placeholder="Write your comment18..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1254,7 +1220,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(18)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openAttachIndex === 18 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800 mt-10">
@@ -1263,12 +1229,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(18)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openCommentIndex === 18 && (
                       <textarea
-                        placeholder="Write your comment18..."
+                        placeholder="Write your comment19..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1313,7 +1279,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(19)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openAttachIndex === 19 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800 mt-10">
@@ -1322,12 +1288,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(19)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] mt-[10px] ">
                     {openCommentIndex === 19 && (
                       <textarea
-                        placeholder="Write your comment19..."
+                        placeholder="Write your comment20..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1370,7 +1336,7 @@ function Proof_Attach() {
                       onClick={() => handleAttachClick(20)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px] ">
+                  <div className="absolute ml-[1080px] -mt-[10px] ">
                     {openAttachIndex === 20 && <Attachment />}
                   </div>
                   <div className="col-span-1 text-2xl text-blue-800 mt-5">
@@ -1379,12 +1345,12 @@ function Proof_Attach() {
                       onClick={() => handleCommentClick(20)}
                     />
                   </div>
-                  <div className="absolute ml-[1000px] mt-[160px]">
+                  <div className="absolute ml-[1080px] -mt-[10px]">
                     {openCommentIndex === 20 && (
                       <textarea
-                        placeholder="Write your comment20..."
+                        placeholder="Write your comment21..."
                         rows={4}
-                        cols={38}
+                        cols={28}
                         className="border-[1px] border-black outline-none"
                       />
                     )}
@@ -1400,13 +1366,8 @@ function Proof_Attach() {
         <button
           className="py-[10px] px-5 bg-blue-700 text-white  font-semibold"
           onClick={() => {
-            // handleActualInsert80c();
             handleNavigateProof();
-            // handleActualInsert80d();
-            // handleActualInsert80e();
-            //"/proofsAndComments"
             setOpen(true);
-            // handleSubmit();
             handleMessage();
           }}
         >
@@ -1463,57 +1424,3 @@ function Proof_Attach() {
 }
 
 export default Proof_Attach;
-
-/*
-import React, { useState } from "react";
-
-function A() {
-  const [openCommentIndex, setOpenCommentIndex] = useState(null);
-
-  const handleCommentClick = (index) => {
-    console.log(index, "index");
-    console.log(openCommentIndex, "openCommentIndex");
-    setOpenCommentIndex(openCommentIndex === index ? null : index);
-  };
-
-  console.log(openCommentIndex, "openCommentIndex1");
-
-  return (
-    <div>
-      <div>
-        <span onClick={() => handleCommentClick(0)}>Comment Icon</span>
-        {openCommentIndex === 0 && (
-          <textarea placeholder="Write your comment1..." rows={4} cols={50} />
-        )}
-      </div>
-      <div>
-        <span onClick={() => handleCommentClick(1)}>Comment Icon</span>
-        {openCommentIndex === 1 && (
-          <textarea placeholder="Write your comment2..." rows={4} cols={50} />
-        )}
-      </div>
-      <div>
-        <span onClick={() => handleCommentClick(2)}>Comment Icon</span>
-        {openCommentIndex === 2 && (
-          <textarea placeholder="Write your comment3..." rows={4} cols={50} />
-        )}
-      </div>
-      <div>
-        <span onClick={() => handleCommentClick(3)}>Comment Icon</span>
-        {openCommentIndex === 3 && (
-          <textarea placeholder="Write your comment4..." rows={4} cols={50} />
-        )}
-      </div>
-      <div>
-        <span onClick={() => handleCommentClick(4)}>Comment Icon</span>
-        {openCommentIndex === 4 && (
-          <textarea placeholder="Write your comment5..." rows={4} cols={50} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-export default A;
-
-*/

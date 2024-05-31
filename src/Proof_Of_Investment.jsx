@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-
 import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Assuming you are using React Router for navigation
+import { useLocalStorage } from "react-use";
 
 function Proof_Of_Investment() {
   const navigate = useNavigate();
-
+  const [restrict, setRestrict, remove] = useLocalStorage("restrict", "false");
   const [selectedOption, setSelectedOption] = useState("2024-2025");
 
   const options1 = ["2024-2025", "2024", "2025"];
@@ -23,14 +23,15 @@ function Proof_Of_Investment() {
 
   return (
     <div>
-      <div className="mt-8 md:ml-[250px] lg:ml-[500px] ml-[40px] flex items-center space-x-1">
+      <div className="mt-8 md:ml-[250px] lg:ml-[500px] ml-[40px] flex items-center space-x-1 cursor-pointer">
         <div className="text-xl text-gray-600 tracking-normal font-medium -mt-1">
-          Financial Year :{" "}
+          Financial Year :
         </div>
         <Dropdown
           options={options1}
           onChange={handleSelect}
           value={selectedOption}
+          disabled={restrict === true}
         />
       </div>
 
@@ -52,22 +53,30 @@ function Proof_Of_Investment() {
           <div className="grid grid-cols-5">
             <div className="lg:col-span-5 col-span-5 pt-4">
               <h1 className="text-2xl font-bold md:ml-28 lg:ml-0 ml-0">
-                Proof of investment is open now !
+                Proof of investment is {restrict ? "close" : "open"} now !
               </h1>
               <h6 className="text-lg md:text-2xl lg:text-lg font-semibold mt-3 md:max-lg:text-center">
                 Submit the proofs for the Investment you had declared in the IT
                 declaration for the current financial year
               </h6>
 
-              <div
-                className="border-2 border-blue-900 flex items-center space-x-5 w-[330px] p-3 mt-12 cursor-pointer md:max-lg:ml-[100px]"
-                onClick={proofInvestWindow}
-              >
-                <div className="ml-2 text-2xl text-blue-900">Submit Proofs</div>
-                <div className="text-xl">
-                  <FaArrowRight />
-                </div>
-              </div>
+              {restrict ? (
+                ""
+              ) : (
+                <>
+                  <div
+                    className="border-2 border-blue-900 flex items-center space-x-5 w-[230px] p-3 mt-12 cursor-pointer md:max-lg:ml-[100px]"
+                    onClick={proofInvestWindow}
+                  >
+                    <div className="ml-2 text-2xl text-blue-900">
+                      Submit Proofs
+                    </div>
+                    <div className="text-xl">
+                      <FaArrowRight />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

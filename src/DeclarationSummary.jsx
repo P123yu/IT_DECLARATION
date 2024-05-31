@@ -2,7 +2,6 @@ import { Checkbox, Modal, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -11,6 +10,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
 
 import Proof_Of_Investment from "./Proof_Of_Investment";
+import Service from "./Service";
 import useFileStore from "./Zustand";
 
 function DeclarationSummary() {
@@ -78,27 +78,15 @@ function DeclarationSummary() {
   }, []);
 
   const getTotalSection80C = () => {
-    axios
-      .get("http://localhost:8080/Section80C/getByempIdSec80c/1")
-      .then((res) => {
-        setNetData80C(res.data);
-      });
+    Service.getSection80CByEmpId().then((res) => setNetData80C(res.data));
   };
 
   const getTotalSection80D = () => {
-    axios
-      .get("http://localhost:8080/Section80D/getByempIdSec80d/1")
-      .then((res) => {
-        setNetData80D(res.data);
-      });
+    Service.getSection80DByEmpId().then((res) => setNetData80D(res.data));
   };
 
   const getTotalSection80E = () => {
-    axios
-      .get("http://localhost:8080/Section80E/getByempIdSec80e/1")
-      .then((res) => {
-        setNetData80E(res.data);
-      });
+    Service.getSection80EByEmpId().then((res) => setNetData80E(res.data));
   };
 
   return (

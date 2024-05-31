@@ -68,7 +68,6 @@ function Proof_Of_Investment_Update() {
             </h2>
           </div>
         </div>
-        {/* </div> */}
       </div>
 
       <div>

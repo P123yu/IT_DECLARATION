@@ -4,8 +4,8 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
-import axios from "axios";
 import { ImCancelCircle } from "react-icons/im";
+import Service from "./Service";
 
 function IT_Declaration_Display() {
   const [open, setOpen] = useState(false);
@@ -16,7 +16,7 @@ function IT_Declaration_Display() {
   const [value2, setValue2] = useState(false);
 
   const [infoSection80C, setInfoSection80C] = useState("");
-  const [totalDataSection80C, settotalDataSection80C] = useState("");
+  const [totalDataSection80C, setTotalDataSection80C] = useState("");
 
   const totalSumSection80C =
     totalDataSection80C.cpf +
@@ -41,8 +41,6 @@ function IT_Declaration_Display() {
     navigate("/selectRegime");
   };
 
-  console.log(totalDataSection80C, "totalDataSection80C......................");
-
   // ------------------------------------------------------
 
   useEffect(() => {
@@ -52,34 +50,25 @@ function IT_Declaration_Display() {
   }, []);
 
   const handleSubmitSection80CAuto = () => {
-    axios
-      .get("http://localhost:8080/Section80C/getByempIdSec80c/1")
-      .then((response) => {
-        settotalDataSection80C(response.data);
-        setValue(true);
-      });
+    Service.getSection80CByEmpId().then((res) => {
+      setTotalDataSection80C(res.data);
+      setValue(true);
+    });
   };
 
   const handleSubmitSection80DAuto = () => {
-    axios
-      .get("http://localhost:8080/Section80D/getByempIdSec80d/1")
-      .then((response) => {
-        settotalDataSection80D(response.data);
-        setValue1(true);
-      });
+    Service.getSection80DByEmpId().then((res) => {
+      setTotalDataSection80D(res.data);
+      setValue2(true);
+    });
   };
 
   const handleSubmitSection80EAuto = () => {
-    axios
-      .get("http://localhost:8080/Section80E/getByempIdSec80e/1")
-      .then((response) => {
-        settotalDataSection80E(response.data);
-        setValue2(true);
-      });
+    Service.getSection80EByEmpId().then((res) => {
+      setTotalDataSection80E(res.data);
+      setValue2(true);
+    });
   };
-
-  // const [infoSection80C, setInfoSection80C] = useState("");
-  // const [totalDataSection80C, settotalDataSection80C] = useState("");
 
   const handleChangeIT_DeclarationSection80C = (e) => {
     const key = e.target.name;
@@ -88,23 +77,13 @@ function IT_Declaration_Display() {
   };
 
   const handleSubmitSection80C = () => {
-    console.warn("submitted section80D");
     const infoSection80CCopy = { ...infoSection80C, empId: 1, flag: 1 };
-
-    console.warn(
-      infoSection80CCopy,
-      "infoSection80CCopy**************************"
-    );
     setValue(true);
-    axios
-      .post("http://localhost:8080/Section80C/postSec80C", infoSection80CCopy)
-      .then((response) => {
-        axios
-          .get("http://localhost:8080/Section80C/getByempIdSec80c/1")
-          .then((response) => {
-            settotalDataSection80C(response.data);
-          });
+    Service.postSection80CDataFirst(infoSection80CCopy).then((response) => {
+      Service.getSection80CByEmpId().then((response) => {
+        setTotalDataSection80C(response.data);
       });
+    });
   };
 
   const [infoSection80D, setInfoSection80D] = useState("");
@@ -115,7 +94,7 @@ function IT_Declaration_Display() {
     setInfoSection80D({ ...infoSection80D, [key]: value });
   };
 
-  const [totalDataSection80D, settotalDataSection80D] = useState("");
+  const [totalDataSection80D, setTotalDataSection80D] = useState("");
 
   const totalSumSection80D =
     totalDataSection80D.nps +
@@ -127,18 +106,13 @@ function IT_Declaration_Display() {
     totalDataSection80D.tbpm;
 
   const handleSubmitSection80D = () => {
-    console.warn(infoSection80D, "infoSection80D");
     const infoSection80DCopy = { ...infoSection80D, empId: 1, flag: 1 };
     setValue1(true);
-    axios
-      .post("http://localhost:8080/Section80D/postSec80d", infoSection80DCopy)
-      .then((response) => {
-        axios
-          .get("http://localhost:8080/Section80D/getByempIdSec80d/1")
-          .then((response) => {
-            settotalDataSection80D(response.data);
-          });
+    Service.postSection80DDataFirst(infoSection80DCopy).then((response) => {
+      Service.getSection80CByEmpId().then((response) => {
+        setTotalDataSection80D(response.data);
       });
+    });
   };
 
   const [infoSection80E, setInfoSection80E] = useState("");
@@ -149,7 +123,7 @@ function IT_Declaration_Display() {
     setInfoSection80E({ ...infoSection80E, [key]: value });
   };
 
-  const [totalDataSection80E, settotalDataSection80E] = useState("");
+  const [totalDataSection80E, setTotalDataSection80E] = useState("");
 
   const totalSumSection80E =
     totalDataSection80E.loan +
@@ -159,15 +133,11 @@ function IT_Declaration_Display() {
   const handleSubmitSection80E = () => {
     const infoSection80ECopy = { ...infoSection80E, empId: 1, flag: 1 };
     setValue2(true);
-    axios
-      .post("http://localhost:8080/Section80E/postSec80e", infoSection80ECopy)
-      .then((response) => {
-        axios
-          .get("http://localhost:8080/Section80E/getByempIdSec80e/1")
-          .then((response) => {
-            settotalDataSection80E(response.data);
-          });
+    Service.postSection80EDataFirst(infoSection80ECopy).then((response) => {
+      Service.getSection80EByEmpId().then((response) => {
+        setTotalDataSection80E(response.data);
       });
+    });
   };
 
   const style = {
