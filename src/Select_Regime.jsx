@@ -159,13 +159,13 @@ function Select_Regime() {
   };
 
   const handleITDecDisp = () => {
-    navigate("/disp");
+    navigate("/declaration-dashboard");
   };
 
   console.log(open, "open");
 
   const handleSubmitButton = () => {
-    navigate("/declarationSummary");
+    navigate("/declaration-summary");
   };
 
   const style = {
@@ -213,46 +213,49 @@ function Select_Regime() {
           By Default Old Regime will be selected, you can change the Regime by
           selecting below
         </h2>
-        <div className="flex mt-8 lg:ml-[500px] md:ml-[200px] ml-[10px] space-x-10 ">
-          <div
-            className={`flex space-x-3 items-center border-2 md:p-4 p-2 md:ml-0 ml-4 rounded-xl shadow-md cursor-pointer shadow-slate-900 ${
-              oldRegime ? "border-blue-700" : "border-gray-500"
-            }`}
-            onClick={handleToggleOldRegime}
-          >
-            <div className="text-2xl">
-              {oldRegime && regime != "New Regime" ? (
-                <Checkmark size="30px" color="yellowGreen" />
-              ) : (
-                <HiOutlineInformationCircle />
-              )}
-            </div>
 
-            {/* {oldRegime && <Checkmark size="30px" color="yellowGreen" />} */}
-            <div className="text-xl">Old Regime</div>
-          </div>
-          <div
-            className={`flex space-x-3 items-center  md:p-4 p-2 rounded-xl border-[1px] cursor-pointer border-black  shadow-slate-900 shadow-md ${
-              newRegime ? "border-blue-700" : "border-gray-500"
-            }`}
-            onClick={handleToggleNewRegime}
-          >
-            <div className="text-2xl">
-              {newRegime || regime === "New Regime" ? (
-                <Checkmark size="30px" color="yellowGreen" />
-              ) : (
-                <HiOutlineInformationCircle />
-              )}
-            </div>
-            {/* {newRegime && <Checkmark size="30px" color="yellowGreen" />} */}
+        <div className="flex justify-center">
+          <div className="flex mt-8  space-x-10 ">
+            <div
+              className={`flex space-x-3 items-center border-2 md:p-4 p-2 md:ml-0 ml-4 rounded-xl shadow-md cursor-pointer shadow-slate-900 ${
+                oldRegime ? "border-blue-700" : "border-gray-500"
+              }`}
+              onClick={handleToggleOldRegime}
+            >
+              <div className="text-2xl">
+                {oldRegime && regime != "New Regime" ? (
+                  <Checkmark size="30px" color="yellowGreen" />
+                ) : (
+                  <HiOutlineInformationCircle />
+                )}
+              </div>
 
-            <div className="text-xl">New Regime</div>
+              {/* {oldRegime && <Checkmark size="30px" color="yellowGreen" />} */}
+              <div className="text-xl">Old Regime</div>
+            </div>
+            <div
+              className={`flex space-x-3 items-center  md:p-4 p-2 rounded-xl border-[1px] cursor-pointer border-black  shadow-slate-900 shadow-md ${
+                newRegime ? "border-blue-700" : "border-gray-500"
+              }`}
+              onClick={handleToggleNewRegime}
+            >
+              <div className="text-2xl">
+                {newRegime || regime === "New Regime" ? (
+                  <Checkmark size="30px" color="yellowGreen" />
+                ) : (
+                  <HiOutlineInformationCircle />
+                )}
+              </div>
+              {/* {newRegime && <Checkmark size="30px" color="yellowGreen" />} */}
+
+              <div className="text-xl">New Regime</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-16 px-16">
-        <h2 className="font-semibold text-gray-700  text-2xl lg:text-2xl md:text-3xl mb-5">
+      <div className="mt-12 px-16">
+        <h2 className="font-semibold text-gray-700  text-2xl lg:text-2xl md:text-3xl ">
           Undertaking By Employee
         </h2>
         <h2 className="font-medium text-gray-500 text-lg lg:text-lg md:text-xl ">
@@ -264,27 +267,30 @@ function Select_Regime() {
           separately
         </h2>
 
-        <div className="flex space-x-4 items-center lg:ml-4  md:-ml-4 -ml-5 md:mt-0 mt-5">
+        <div className="flex space-x-4 items-center  -ml-4 ">
           <Checkbox checked={checked} onChange={handleChanges} size="large" />
           <h2 className="font-semibold text-gray-700 text-lg lg:text-lg md:text-xl">
             I agree to the terms and conditions
           </h2>
         </div>
       </div>
-      <div className="mt-12 pb-10">
-        <div className="grid grid-cols-12">
+      <div className="mt-5 pb-5 ">
+        <div className="grid grid-cols-12 border-[1px] border-gray-500">
           <div className="col-span-9">
-            <div className="md:py-10  py-2 border-[1px] border-gray-500 ">
-              <div className="flex md:space-x-5 space-x-1 items-center lg:ml-[650px]  md:ml-[200px] ml-[0px] text-gray-500 font-semibold">
+            <div className="md:py-3  py-2  ">
+              <div className="flex md:space-x-5 space-x-1 items-center float-end mr-5 text-gray-500 font-semibold">
                 <div className="md:text-3xl text-xl">
                   <HiOutlineInformationCircle />
                 </div>
-                <div className="text-xl">Click Submit to declare your IT </div>
+                <div className="text-lg lg:text-xl">
+                  Click Submit to declare your IT{" "}
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-span-3 ">
-            <div className="md:py-10 py-2 border-b-[1px] border-t-[1px] border-r-[1px] border-gray-500">
+          <div className="col-span-3 border-l-[1px] border-gray-500">
+            {/* py-10 */}
+            <div className="md:py-3 py-2  ">
               {checked ? (
                 <div
                   className={`md:border-[1px] border-[0px] ${

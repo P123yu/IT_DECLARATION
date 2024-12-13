@@ -4,6 +4,7 @@ import { HiOutlineInformationCircle } from "react-icons/hi2";
 import Service from "./Service";
 
 function IT_Declaration_Preview() {
+  const employeeId = 2;
   const [checked, setChecked] = useState(false);
 
   const handleChanges = (event) => {
@@ -48,33 +49,37 @@ function IT_Declaration_Preview() {
   }, []);
 
   const getTotalSection80C = () => {
-    Service.getSection80CByEmpId().then((res) => {
-      setNetData80C(res.data);
+    Service.getSection80CByEmpId(employeeId).then((res) => {
+      setNetData80C(res?.data?.data || "");
     });
   };
 
+  console.warn(netData80C, "netData80C+++++++++++++++===");
+
   const getTotalSection80D = () => {
-    Service.getSection80DByEmpId().then((res) => {
-      setNetData80D(res.data);
+    Service.getSection80DByEmpId(employeeId).then((res) => {
+      setNetData80D(res?.data?.data || "");
     });
   };
 
   const getTotalSection80E = () => {
-    Service.getSection80EByEmpId().then((res) => {
-      setNetData80E(res.data);
+    Service.getSection80EByEmpId(employeeId).then((res) => {
+      setNetData80E(res?.data?.data || "");
     });
   };
 
   return (
     <div>
       <div>
-        <div className="md:flex space-x-32 items-center mt-6 ml-32 ">
-          <div className="border-[2px] border-gray-500 flex items-center  space-x-5 py-1 w-[325px]  ml-[20px] md:ml-[330px]">
-            <div className="ml-3 md:text-2xl text-3xl">
-              <HiOutlineInformationCircle />
-            </div>
-            <div className="font-medium text-gray-500 text-xl">
-              Declaration window is open
+        <div className="flex justify-center">
+          <div className="md:flex space-x-32 items-center mt-6 ">
+            <div className="border-[2px] border-gray-500 flex items-center  space-x-5 py-1 w-[325px]  ">
+              <div className="ml-3 md:text-2xl text-3xl">
+                <HiOutlineInformationCircle />
+              </div>
+              <div className="font-medium text-gray-500 text-xl">
+                Declaration window is open
+              </div>
             </div>
           </div>
         </div>

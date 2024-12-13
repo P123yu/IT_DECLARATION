@@ -3,78 +3,104 @@ import Config from "./Config";
 
 const apiClient = Axios(`${Config.ITDeclarationUrl}`);
 
-const getSection80CByEmpId = () => {
-  const response = apiClient.get("/Section80C/getByempIdSec80c/1");
+const getSection80CByEmpId = (employeeId) => {
+  console.log(employeeId);
+  const response = apiClient.get(`/section80c/get/${employeeId}`);
   return response;
 };
 
-const getSection80DByEmpId = () => {
-  const response = apiClient.get("/Section80D/getByempIdSec80d/1");
+const getSection80DByEmpId = (employeeId) => {
+  const response = apiClient.get(`/section80d/get/${employeeId}`);
   return response;
 };
 
-const getSection80EByEmpId = () => {
-  const response = apiClient.get("/Section80D/getByempIdSec80d/1");
+const getSection80EByEmpId = (employeeId) => {
+  const response = apiClient.get(`/section80e/get/${employeeId}`);
   return response;
 };
+
+// const postSection80CDataFirst = (data) => {
+//   const response = apiClient.post("/section80c/add", data);
+//   return response;
+// };
 
 const postSection80CDataFirst = (data) => {
-  const response = apiClient.post("/Section80C/postSec80C", data);
+  const response = apiClient.post("/it-declaration-info/add", data);
   return response;
 };
-
 const postSection80DDataFirst = (data) => {
-  const response = apiClient.post("/Section80D/postSec80D", data);
+  const response = apiClient.post("/section80d/add", data);
   return response;
 };
 
 const postSection80EDataFirst = (data) => {
-  const response = apiClient.post("/Section80E/postSec80E", data);
+  const response = apiClient.post("/section80e/add", data);
   return response;
 };
 
-const getTotalSumOfSection80C = () => {
-  const response = apiClient.get("/Section80C/getTotalSumSection80c/1");
+const getTotalSumOfSection80C = (employeeId) => {
+  const response = apiClient.get(
+    `/section80c/getTotalSumSection80c/${employeeId}`
+  );
   return response;
 };
 
-const getTotalSumOfSection80D = () => {
-  const response = apiClient.get("/Section80D/getTotalSumSection80d/1");
+const updateSection80CDataFirst = (employeeId, data) => {
+  const response = apiClient.post(`/section80c/update/${employeeId}`, data);
   return response;
 };
 
-const getTotalSumOfSection80E = () => {
-  const response = apiClient.get("/Section80E/getTotalSumSection80e/1");
+const updateSection80DDataFirst = (employeeId, data) => {
+  const response = apiClient.post(`/section80d/update/${employeeId}`, data);
   return response;
 };
 
-const getSection80CActualValue = () => {
-  const response = apiClient.get("/api80c/actualGet/1");
+const updateSection80EDataFirst = (employeeId, data) => {
+  const response = apiClient.post(`/section80e/update/${employeeId}`, data);
   return response;
 };
 
-const getSection80DActualValue = () => {
-  const response = apiClient.get("/api80d/actualGet/1");
+const getTotalSumOfSection80D = (employeeId) => {
+  const response = apiClient.get(
+    `/section80d/getTotalSumSection80d/${employeeId}`
+  );
   return response;
 };
 
-const getSection80EActualValue = () => {
-  const response = apiClient.get("/api80e/actualGet/1");
+const getTotalSumOfSection80E = (employeeId) => {
+  const response = apiClient.get(
+    `/section80e/getTotalSumSection80e/${employeeId}`
+  );
+  return response;
+};
+
+const getSection80CActualValue = (employeeId) => {
+  const response = apiClient.get(`/section80c-update/get/${employeeId}`);
+  return response;
+};
+
+const getSection80DActualValue = (employeeId) => {
+  const response = apiClient.get(`/section80d-update/get/${employeeId}`);
+  return response;
+};
+
+const getSection80EActualValue = (employeeId) => {
+  const response = apiClient.get(`/section80e-update/get/${employeeId}`);
   return response;
 };
 
 const postSection80CActualValue = (data) => {
-  const response = apiClient.post("api80c/actualIns", data);
+  const response = apiClient.post("/section80c-update/add", data);
   return response;
 };
 
 const postSection80DActualValue = (data) => {
-  const response = apiClient.post("/api80d/actualIns", data);
+  const response = apiClient.post("/section80d-update/add", data);
   return response;
 };
 
 const postSection80EActualValue = (data) => {
-  const response = apiClient.post("/api80e/actualIns", data);
+  const response = apiClient.post("/section80e-update/add", data);
   return response;
 };
 
@@ -101,6 +127,9 @@ const Service = {
   postSection80CDataFirst,
   postSection80DDataFirst,
   postSection80EDataFirst,
+  updateSection80CDataFirst,
+  updateSection80DDataFirst,
+  updateSection80EDataFirst,
   getTotalSumOfSection80C,
   getTotalSumOfSection80D,
   getTotalSumOfSection80E,
