@@ -1,48 +1,5 @@
-// import { create } from "zustand";
-// import { createJSONStorage, persist } from "zustand/middleware";
-
-// const useFileStore = create((set) => ({
-//   files: [], // Global file list
-//   addFiles: (newFiles) =>
-//     set((state) => ({ files: [...state.files, ...newFiles] })),
-//   removeFile: (fileName) =>
-//     set((state) => ({
-//       files: state.files.filter((file) => file.name !== fileName),
-//     })),
-//   clearFiles: () => set({ files: [] }),
-//   // Clear all files
-// }));
-
-// const useStore = create(
-//   persist(
-//     (set) => ({
-//       submitFileStatus: false,
-//       setSubmitFileStatus: (value) => set({ submitFileStatus: value }),
-//     }),
-//     {
-//       name: "submit-file-satus",
-//       storage: createJSONStorage(() => sessionStorage),
-//     }
-//   )
-// );
-
-// export { useFileStore, useStore };
-
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-
-// // Zustand store for managing file-related state
-// const useFileStore = create((set) => ({
-//   files: [], // Global file list
-//   addFiles: (newFiles) =>
-//     set((state) => ({ files: [...state.files, ...newFiles] })),
-//   removeFile: (fileName) =>
-//     set((state) => ({
-//       files: state.files.filter((file) => file.name !== fileName),
-//     })),
-//   clearFiles: () => set({ files: [] }), // Clear all files
-//   // clearAllFiles: () => set({ files: [] }),
-// }));
 
 // Zustand store for managing files and itDecId state
 const useFileStore = create((set) => ({
@@ -97,20 +54,6 @@ const useStoreFinancialYear = create(
   )
 );
 
-// const useStoreExistingEmpIdAndFinancialYearStatus = create(
-//   persist(
-//     (set) => ({
-//       empIdAndFinancialYearStatus: "",
-//       setEmpIdAndFinancialYearStatus: (value) =>
-//         set({ empIdAndFinancialYearStatus: value }),
-//     }),
-//     {
-//       name: "empid-financialyear-status", // Storage key
-//       storage: createJSONStorage(() => sessionStorage), // Use session storage
-//     }
-//   )
-// );
-
 const useStoreSaveStatusSection80c = create(
   persist(
     (set) => ({
@@ -124,10 +67,24 @@ const useStoreSaveStatusSection80c = create(
   )
 );
 
+// Zustand store for managing submission status, persisted to session storage
+const useStoreRegime = create(
+  persist(
+    (set) => ({
+      regime: "",
+      setRegime: (value) => set({ regime: value }),
+    }),
+    {
+      name: "regime", // Storage key
+      storage: createJSONStorage(() => sessionStorage), // Use session storage
+    }
+  )
+);
 // Export the stores as named exports
 export {
   useFileStore,
   useStore,
   useStoreFinancialYear,
+  useStoreRegime,
   useStoreSaveStatusSection80c,
 };

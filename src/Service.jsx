@@ -3,142 +3,165 @@ import Config from "./Config";
 
 const apiClient = Axios(`${Config.ITDeclarationUrl}`);
 
-const getSection80CByEmpId = (employeeId) => {
-  console.log(employeeId);
-  const response = apiClient.get(`/section80c/get/${employeeId}`);
-  return response;
-};
-
-const getSection80DByEmpId = (employeeId) => {
-  const response = apiClient.get(`/section80d/get/${employeeId}`);
-  return response;
-};
-
-const getSection80EByEmpId = (employeeId) => {
-  const response = apiClient.get(`/section80e/get/${employeeId}`);
-  return response;
-};
-
-// const postSection80CDataFirst = (data) => {
-//   const response = apiClient.post("/section80c/add", data);
-//   return response;
-// };
-
-const postSection80CDataFirst = (data) => {
+const postSection80Data = (data) => {
   const response = apiClient.post("/it-declaration-info/add", data);
   return response;
 };
-const postSection80DDataFirst = (data) => {
-  const response = apiClient.post("/section80d/add", data);
+
+const fetchAllSectionName = () => {
+  const response = apiClient.get("/it-declaration-master/get-all");
   return response;
 };
 
-const postSection80EDataFirst = (data) => {
-  const response = apiClient.post("/section80e/add", data);
-  return response;
-};
-
-const getTotalSumOfSection80C = (employeeId) => {
+const fetchITDeclarationInfoBasedOnEmpIdAndFinancialYear = (
+  empId,
+  financialYear
+) => {
   const response = apiClient.get(
-    `/section80c/getTotalSumSection80c/${employeeId}`
+    `/it-declaration-info/get/${empId}/${financialYear}`
   );
   return response;
 };
 
-const updateSection80CDataFirst = (employeeId, data) => {
-  const response = apiClient.post(`/section80c/update/${employeeId}`, data);
-  return response;
-};
-
-const updateSection80DDataFirst = (employeeId, data) => {
-  const response = apiClient.post(`/section80d/update/${employeeId}`, data);
-  return response;
-};
-
-const updateSection80EDataFirst = (employeeId, data) => {
-  const response = apiClient.post(`/section80e/update/${employeeId}`, data);
-  return response;
-};
-
-const getTotalSumOfSection80D = (employeeId) => {
+const fetchITDeclarationSaveStatusInfoBasedOnEmpIdAndFinancialYear = (
+  empId,
+  financialYear
+) => {
   const response = apiClient.get(
-    `/section80d/getTotalSumSection80d/${employeeId}`
+    `/it-declaration-info/get-save-status/${empId}/${financialYear}`
   );
   return response;
 };
 
-const getTotalSumOfSection80E = (employeeId) => {
-  const response = apiClient.get(
-    `/section80e/getTotalSumSection80e/${employeeId}`
+const fetchITDeclarationSaveStatusForSection80dInfoBasedOnEmpIdAndFinancialYear =
+  (empId, financialYear) => {
+    const response = apiClient.get(
+      `/it-declaration-info/get-save-status-80d/${empId}/${financialYear}`
+    );
+    return response;
+  };
+
+const postTotalAmountForSection80c = (empId, financialYear, data) => {
+  const response = apiClient.post(
+    `/it-declaration-info/total-amount-80c/${empId}/${financialYear}`,
+    data
   );
   return response;
 };
 
-const getSection80CActualValue = (employeeId) => {
-  const response = apiClient.get(`/section80c-update/get/${employeeId}`);
+const postTotalAmountForSection80d = (empId, financialYear, data) => {
+  const response = apiClient.post(
+    `/it-declaration-info/total-amount-80d/${empId}/${financialYear}`,
+    data
+  );
   return response;
 };
 
-const getSection80DActualValue = (employeeId) => {
-  const response = apiClient.get(`/section80d-update/get/${employeeId}`);
+const fetchTotalAmountForSection80c = (empId, financialYear) => {
+  const response = apiClient.get(
+    `/it-declaration-info/get-total-amount-80c/${empId}/${financialYear}`
+  );
   return response;
 };
 
-const getSection80EActualValue = (employeeId) => {
-  const response = apiClient.get(`/section80e-update/get/${employeeId}`);
+const fetchTotalAmountForSection80d = (empId, financialYear) => {
+  const response = apiClient.get(
+    `/it-declaration-info/get-total-amount-80d/${empId}/${financialYear}`
+  );
   return response;
 };
 
-const postSection80CActualValue = (data) => {
-  const response = apiClient.post("/section80c-update/add", data);
+const postITDeclarationSaveStatusInfoBasedOnEmpIdAndFinancialYear = (
+  empId,
+  financialYear
+) => {
+  const response = apiClient.post(
+    `/it-declaration-info/save-status/${empId}/${financialYear}`
+  );
   return response;
 };
 
-const postSection80DActualValue = (data) => {
-  const response = apiClient.post("/section80d-update/add", data);
+const postITDeclarationSaveStatusForSection80dInfoBasedOnEmpIdAndFinancialYear =
+  (empId, financialYear) => {
+    const response = apiClient.post(
+      `/it-declaration-info/save-status-80d/${empId}/${financialYear}`
+    );
+    return response;
+  };
+
+// ================================ proof of investment ==========================================
+
+const fetchProofOfInvestmentBasedOnEmpIdAndFinancialYear = (
+  empId,
+  financialYear
+) => {
+  const response = apiClient.get(
+    `/proof-of-investment/get-all-proof/${empId}/${financialYear}`
+  );
   return response;
 };
 
-const postSection80EActualValue = (data) => {
-  const response = apiClient.post("/section80e-update/add", data);
+const postProofOfInvestment = (data) => {
+  const response = apiClient.post("/proof-of-investment/add", data);
   return response;
 };
 
-// const editForm = async (id, data) => {
-//   return await apiClient.put(/${id}, data);
-// };
+const setStatusForProofOfInvestment = (empId, submitFinancialYear, state) => {
+  const response = apiClient.get(
+    `/proof-of-investment/set-status-proof/${empId}/${submitFinancialYear}/${state}`
+  );
+  return response;
+};
 
-// const deleteForm = async id => {
-//   return await apiClient.delete(/${id});
-// };
+const getStatusForProofOfInvestmentFunction = (empId, submitFinancialYear) => {
+  const response = apiClient.get(
+    `/proof-of-investment/get-status-proof/${empId}/${submitFinancialYear}`
+  );
+  return response;
+};
 
-// // const removeAll = () => {
-// //   return http.delete(/form);
-// // };
+const setSubmitStatusForProofOfInvestment = (
+  empId,
+  submitFinancialYear,
+  state
+) => {
+  const response = apiClient.get(
+    `/proof-of-investment/set-submit-status-proof/${empId}/${submitFinancialYear}/${state}`
+  );
+  return response;
+};
 
-// // const findByTitle = title => {
-// //   return http.get(/form?title=${title});
-// // };
+const getSubmitStatusForProofOfInvestmentFunction = (
+  empId,
+  submitFinancialYear
+) => {
+  const response = apiClient.get(
+    `/proof-of-investment/get-submit-status-proof/${empId}/${submitFinancialYear}`
+  );
+  return response;
+};
 
 const Service = {
-  getSection80CByEmpId,
-  getSection80DByEmpId,
-  getSection80EByEmpId,
-  postSection80CDataFirst,
-  postSection80DDataFirst,
-  postSection80EDataFirst,
-  updateSection80CDataFirst,
-  updateSection80DDataFirst,
-  updateSection80EDataFirst,
-  getTotalSumOfSection80C,
-  getTotalSumOfSection80D,
-  getTotalSumOfSection80E,
-  getSection80CActualValue,
-  getSection80DActualValue,
-  getSection80EActualValue,
-  postSection80CActualValue,
-  postSection80DActualValue,
-  postSection80EActualValue,
+  // it-declaration =============================================
+  postSection80Data,
+  fetchAllSectionName,
+  fetchITDeclarationInfoBasedOnEmpIdAndFinancialYear,
+  fetchITDeclarationSaveStatusInfoBasedOnEmpIdAndFinancialYear,
+  fetchITDeclarationSaveStatusForSection80dInfoBasedOnEmpIdAndFinancialYear,
+  postITDeclarationSaveStatusInfoBasedOnEmpIdAndFinancialYear,
+  postITDeclarationSaveStatusForSection80dInfoBasedOnEmpIdAndFinancialYear,
+  postTotalAmountForSection80c,
+  postTotalAmountForSection80d,
+  fetchTotalAmountForSection80c,
+  fetchTotalAmountForSection80d,
+
+  // proof of investment =========================================
+  fetchProofOfInvestmentBasedOnEmpIdAndFinancialYear,
+  postProofOfInvestment,
+  setStatusForProofOfInvestment,
+  getStatusForProofOfInvestmentFunction,
+  setSubmitStatusForProofOfInvestment,
+  getSubmitStatusForProofOfInvestmentFunction,
 };
 
 export default Service;

@@ -1,121 +1,3 @@
-// import Checkbox from '@mui/material/Checkbox';
-// import React, { useState } from 'react';
-// import { Checkmark } from 'react-checkmark';
-// import { FaArrowLeft } from "react-icons/fa";
-// import { HiOutlineInformationCircle } from "react-icons/hi2";
-
-// function Select_Regime() {
-
-//     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-//     const [flag,setFlag]=useState(false);
-//      const [flag1,setFlag1]=useState(false);
-
-//     const handleTick=()=>{
-//          setFlag(!flag);
-//     }
-
-//     const handle1Tick=()=>{
-//         setFlag1(!flag);
-//    }
-
-//   return (
-//     <div className='mt-10'>
-//        <div className='flex'>
-//         <div className='flex space-x-5 items-center px-4'>
-//             <div className='text-gray-400 text-xl ml-4'>
-//             <FaArrowLeft />
-//             </div>
-//             <div className='text-gray-400 font-semibold text-2xl'>
-//                IT Declaration
-//             </div>
-//             </div>
-//             <div className='border-r-2 border-gray-500 h-9'></div>
-
-//             <div className='text-gray-700 font-semibold text-2xl ml-5'>
-//                Select Regime
-//             </div>
-//         </div>
-
-//         <div className='border-b-[2px] border-gray-300  px-4'></div>
-
-//         <div>
-
-//             <h2 className='text-center text-2xl font-semibold text-gray-600 mt-7'>Select any of the Regime before you Click Submit</h2>
-//             <h2 className='text-center mt-2 text-gray-600 font-medium'>By Default Old Regime will be selected, you can change the Regime by selecting below</h2>
-
-//             <div className='flex mt-8 ml-[500px] space-x-10'>
-//                 <div className='flex space-x-3 items-center border-2 border-blue-700 p-4 rounded-xl shadow-md shadow-slate-900' onClick={handle1Tick}>
-// <div className='text-2xl'>
-// {flag==true? <Checkmark size='128px' color='blue' />: <HiOutlineInformationCircle />}
-// </div>
-// <div className='text-xl'>
-//     Old Regime
-// </div>
-//                 </div>
-
-//                 <div className='flex space-x-3 items-center shadow-[inset_0_4px_4px_rgba(0,0,0,0.6)] p-4 rounded-xl border-[1px] border-black  shadow-slate-900 shadow-md shadow-slate-900' onClick={handleTick}>
-
-//                     <div className='text-2xl'>
-
-//                         {flag==true? <Checkmark size='128px' color='blue' />: <HiOutlineInformationCircle />}
-
-//                     </div>
-
-//                     <div className='text-xl'>
-//                     New Regime
-//                     </div>
-
-//                 </div>
-//             </div>
-//         </div>
-
-//         <div className='mt-16 px-16'>
-//             <h2 className='font-semibold text-gray-700 text-2xl mb-5'>Undertaking By Employee</h2>
-//             <h2 className='font-medium text-gray-500 text-lg '>I hereby declare that the above information is correct and I shall be solely responsible for any queries that
-//             may be raised by the Income Tax Department related to my investment proof and I shall identify the income tax liability if any asked by income department any additional
-//              taxes coming in post declaration of this phone will be paid by me separately</h2>
-
-//                 <div className='flex space-x-4 items-center -ml-4'>
-// <Checkbox {...label} defaultChecked size="large" />
-// <h2 className='font-semibold text-gray-700 text-lg'>I agree to the terms and conditions</h2>
-// </div>
-//         </div>
-
-//         <div className='mt-12 pb-10'>
-
-// <div className='grid grid-cols-12'>
-//     <div className="col-span-9">
-//     <div className='py-10  border-[1px] border-gray-500 '>
-//         <div className='flex space-x-5 items-center ml-[650px] text-gray-500 font-semibold'>
-//             <div className='text-3xl'><HiOutlineInformationCircle /></div>
-//         <div className='text-xl'>Click Submit to declare your IT </div>
-//         </div>
-
-//         </div>
-//     </div>
-//     <div className="col-span-3 ">
-//     <div className='py-10 border-b-[1px] border-t-[1px] border-r-[1px] border-gray-500'>
-
-//         <div className='border-[1px] border-blue-700  text-xl font-semibold text-blue-700 cursor-pointer w-28 ml-24 text-center' >
-// Submit
-
-//         </div>
-//     </div>
-
-//     </div>
-// </div>
-
-// </div>
-
-// </div>
-
-//   )
-// }
-
-// export default Select_Regime
-
-// shadow-[inset_0_4px_4px_rgba(0,0,0,0.6)]
-
 import { Box, Modal } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Tooltip from "@mui/material/Tooltip";
@@ -125,7 +7,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { ImCancelCircle } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
-import useFileStore from "./Zustand";
+import { useStoreRegime } from "./useFileStore";
 
 function Select_Regime() {
   const [checked, setChecked] = useState(false);
@@ -133,14 +15,12 @@ function Select_Regime() {
   const [newRegime, setNewRegime] = useState(false);
   const [oldRegime, setOldRegime] = useState(true);
 
-  const { regime } = useFileStore();
+  const { regime, setRegime } = useStoreRegime();
 
   const handleChanges = (event) => {
     setOpen(false);
     setChecked(event.target.checked);
   };
-
-  const { setRegime } = useFileStore();
 
   console.log(checked, "checked");
 
@@ -312,7 +192,7 @@ function Select_Regime() {
                   onClick={() => setOpen(true)}
                 >
                   <Tooltip title="First click on checkbox" arrow>
-                    Submit
+                    <span>Submit</span>
                   </Tooltip>
                 </div>
               )}
